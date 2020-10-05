@@ -17,6 +17,7 @@ REFRESH MATERIALIZED VIEW employees_1986;
 
 -- 3. List the manager of each department with the following information: 
 --    department number, department name, the manager's employee number, last name, first name.
+-- option 1
 CREATE MATERIALIZED VIEW manager_each_department AS 
 SELECT d.dept_no, d.dept_name, de.emp_no, e.emp_title_id, ti.title, e.last_name, e.first_name
 FROM departments d
@@ -29,6 +30,19 @@ INNER JOIN titles ti
 WHERE title = 'Manager';
 
 REFRESH MATERIALIZED VIEW manager_each_department;
+
+-- Option 2
+-- SELECT d.dept_no, d.dept_name, dm.emp_no, e.last_name, e.first_name, ti.title
+-- FROM departments d 
+-- INNER JOIN dept_emp de
+-- 		ON d.dept_no = de.dept_no
+-- INNER JOIN dept_manager dm
+-- 		ON de.emp_no = dm.emp_no
+-- INNER JOIN employees e
+-- 		ON dm.emp_no = e.emp_no
+-- -- Check to make sure their titles are 'Manager'.
+-- INNER JOIN titles ti
+-- 		ON e.emp_title_id = ti.title_id;
 
 -- 4. List the department of each employee with the following information: 
 --    employee number, last name, first name, and department name.
